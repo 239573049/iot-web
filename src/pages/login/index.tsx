@@ -24,14 +24,20 @@ const iconStyles: CSSProperties = {
 var user = window.localStorage.getItem('user')
 
 
+
 export default () => {
-  useState
+if(user){
+  console.log('自动登录');
+  
+}
+  
   function onSubmit(value: any) {
     if(value.autoLogin){
       console.log(value);
       window.localStorage.setItem('user',JSON.stringify(value))
     }
   }
+
 
 
   return (
