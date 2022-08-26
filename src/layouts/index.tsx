@@ -1,10 +1,10 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { useState } from 'react';
 import defaultProps from './menu';
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Popover, Button } from 'antd';
+import { UserOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Link } from 'umi';
-
+import styles from './index.less';
 export default (props) => {
   const [pathname, setPathname] = useState('/');
 
@@ -21,7 +21,6 @@ export default (props) => {
         }}
         navTheme="light"
         fixSiderbar
-        headerRender={false}
         onMenuHeaderClick={(e) => console.log(e)}
         title="Iot管理平台"
         logo="https://gw.alipayobjects.com/mdn/rms_b5fcc5/afts/img/A*1NHAQYduQiQAAAAAAAAAAABkARQnAQ"
@@ -47,9 +46,25 @@ export default (props) => {
             <Link to={item.path ?? '/'}>{dom}</Link>
           </a>
         )}
-        rightContentRender={() => (
-          <div>
-            <Avatar shape="square" size="small" icon={<UserOutlined />} />
+        headerRender={() => (
+          <div className={styles.header}>
+            <Popover
+              placement="bottomRight"
+              content={() => (
+                <div style={{ width: '100%' }}>
+                  <div className={styles.popover}>个人资料</div>
+                  <div className={styles.popover}>退出登录</div>
+                </div>
+              )}
+              trigger="click"
+            >
+              <Avatar
+                shape="square"
+                size="large"
+                src=""
+                icon={<UserOutlined />}
+              />
+            </Popover>
           </div>
         )}
       >
