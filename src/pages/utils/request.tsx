@@ -24,7 +24,9 @@ const errorHandler = (error) => {
   const { response = {} } = error;
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
-  message.error(errortext);
+  if (status > 500) {
+    message.error(errortext);
+  }
 };
 
 const request = extend({
