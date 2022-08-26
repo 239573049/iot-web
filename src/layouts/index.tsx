@@ -39,10 +39,12 @@ export default (props) => {
         menuItemRender={(item, dom: any) => (
           <a
             onClick={() => {
+              console.log(item);
+
               setPathname(item.path || '/');
             }}
           >
-            <Link to={pathname ?? '/'}>{dom}</Link>
+            <Link to={item.path ?? '/'}>{dom}</Link>
           </a>
         )}
         rightContentRender={() => (
