@@ -10,8 +10,11 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Space } from 'antd';
+import { Space, message } from 'antd';
 import { CSSProperties, useState } from 'react';
+import AuthApi from '@/apis/auth/index';
+import { setToken } from '../utils/token';
+import { history } from 'umi';
 
 const iconStyles: CSSProperties = {
   marginLeft: '16px',
@@ -21,18 +24,30 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 
-var user = window.localStorage.getItem('user');
+var user = JSON.parse(window.localStorage.getItem('user'));
 
 export default () => {
-  if (user) {
+  if (user?.autoLogin) {
     console.log('自动登录');
+    onSubmit(user);
   }
 
   function onSubmit(value: any) {
-    if (value.autoLogin) {
-      console.log(value);
-      window.localStorage.setItem('user', JSON.stringify(value));
-    }
+    AuthApi.auth(value).then((res: any) => {
+      if (res.code === '200') {
+        setToken(res.data);
+
+        if (value.autoLogin) {
+          window.localStorage.setItem('user', JSON.stringify(value));
+        } else {
+          window.localStorage.removeItem('user');
+        }
+
+        history.push('/');
+        return;
+      }
+      message.error(res.message);
+    });
   }
 
   return (
