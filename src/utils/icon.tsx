@@ -1585,3 +1585,5 @@ const icon: Icon = {
   ZoomInOutlined: <ZoomInOutlined />,
   ZoomOutOutlined: <ZoomOutOutlined />,
 };
+
+export default icon;
