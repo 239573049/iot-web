@@ -13,7 +13,7 @@ import {
 import { Space, message } from 'antd';
 import { CSSProperties, useState } from 'react';
 import AuthApi from '@/apis/auth/index';
-import { setToken } from '../utils/token';
+import { setToken } from '../../utils/token';
 import { history } from 'umi';
 
 const iconStyles: CSSProperties = {

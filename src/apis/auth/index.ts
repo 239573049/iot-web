@@ -1,4 +1,4 @@
-import request from '@/pages/utils/request';
+import request from '@/utils/request';
 import AuthModule from '@/modules/AuthModule';
 
 const name = 'api/';
