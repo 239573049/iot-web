@@ -1,12 +1,23 @@
 import { ProLayout } from '@ant-design/pro-components';
-import { useState } from 'react';
+import { useState, Component, ReactNode } from 'react';
 import defaultProps from './menu';
 import { Avatar, Popover, Button } from 'antd';
 import { UserOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Link } from 'umi';
 import styles from './index.less';
+import MenuApi from '@/apis/menu/index';
+
 export default (props) => {
   const [pathname, setPathname] = useState('/');
+
+  const state = {
+    menus: [],
+  };
+
+  MenuApi.getRoleMenu().then((res) => {
+    console.log(res);
+    state.menus = res.data;
+  });
 
   return (
     <div
@@ -15,7 +26,7 @@ export default (props) => {
       }}
     >
       <ProLayout
-        route={defaultProps}
+        route={state.menus}
         location={{
           pathname,
         }}
@@ -38,8 +49,6 @@ export default (props) => {
         menuItemRender={(item, dom: any) => (
           <a
             onClick={() => {
-              console.log(item);
-
               setPathname(item.path || '/');
             }}
           >
