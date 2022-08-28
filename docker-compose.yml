@@ -7,9 +7,10 @@ services:
     volumes:
       - /root/wwwroot/iot-web:/drone/src/dist
       - /root/node/node_modules:/drone/src/node_modules
-    command: 
+    build: 
       - npm config set registry https://registry.npm.taobao.org # 切换淘宝镜像
       - "npm i && npm run build"
+    
     networks:
       - token
 
