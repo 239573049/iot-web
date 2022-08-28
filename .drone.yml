@@ -9,7 +9,7 @@ platform:
 
 steps:
   - name: build
-    image: node:16.5.1-stretch-slim
+    image: node:16.5.0-stretch-slim
     depends_on: [clone]
     volumes:
       - name: node_modules
