@@ -1,8 +1,8 @@
 version: '3.7'
 services:
   iot-auth:
-    image: registry.cn-shenzhen.aliyuncs.com/tokengo/iot-auth:dev
-    container_name: iot-auth
+    image: node:16.5.0-stretch-slim
+    container_name: node
     restart: always
     volumes:
       - /root/wwwroot/iot-web:/drone/src/dist
