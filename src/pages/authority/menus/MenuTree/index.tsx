@@ -70,7 +70,7 @@ export default class MenuTree extends Component {
 
   onSelect(key, value) {
     var { selectData } = this.state;
-    selectData = value;
+    selectData = value.selected ? value : null;
     this.setState({ selectData });
   }
 
@@ -173,12 +173,16 @@ export default class MenuTree extends Component {
         },
       );
     };
-
+    var operation = selectData == null;
     return (
       <div>
         <Card hoverable className={styles.operation}>
-          <Button type="primary" disabled={selectData == null}>
+          <Button type="primary" disabled={operation} className={styles.button}>
             编辑
+          </Button>
+
+          <Button type="primary" danger disabled={operation}>
+            删除
           </Button>
         </Card>
         <Card hoverable style={{ height: '100%' }}>

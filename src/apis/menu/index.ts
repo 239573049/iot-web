@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-const name = 'api/';
+const name = 'auth/api/';
 
 class MenuApi {
   getRoleMenu() {
