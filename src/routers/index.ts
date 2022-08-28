@@ -1,11 +1,11 @@
 export const routes: any[] = [
   {
     name: '登录',
-    path: '/login',
+    path: '/',
     component: '@/pages/login/index',
   },
   {
-    path: '/',
+    path: '/admin',
     flatMenu: true,
     component: '@/layouts/index',
     routes: [
