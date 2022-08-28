@@ -13,9 +13,9 @@ steps:
     depends_on: [clone]
     volumes:
       - name: node_modules
-        path: /drone/src/node_modules
+        path: ./node_modules
       - name: dist
-        path: /drone/src/dist
+        path: ./dist
     commands:
       - npm config set registry https://registry.npm.taobao.org # 切换淘宝镜像
       - "npm i && npm run build"
