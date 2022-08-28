@@ -14,11 +14,12 @@ steps:
     volumes:
       - name: node_modules
         path: /drone/src/node_modules
-      - name: build
+      - name: dist
         path: /drone/src/dist
     commands:
       - npm config set registry https://registry.npm.taobao.org # 切换淘宝镜像
       - "npm i && npm run build"
+      - $PWD
 
 volumes:
   - name: dockersock
@@ -27,6 +28,6 @@ volumes:
   - name: node_modules
     host:
       path: /root/node/node_modules/iot-web
-  - name: build
+  - name: dist
     host:
       path: /root/wwwroot/iot-web
