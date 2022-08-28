@@ -10,5 +10,14 @@ class MenuApi {
   getMenuTree() {
     return request.get(name + 'app/menu/menu-tree');
   }
+
+  updateMenuParentId(id, parentId, index) {
+    return request.put(name + 'app/menu/' + id + '/menu-parent-id', {
+      data: {
+        parentId: parentId,
+        index: index,
+      },
+    });
+  }
 }
 export default new MenuApi();

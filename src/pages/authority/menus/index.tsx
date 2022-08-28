@@ -13,7 +13,7 @@ export default class Menu extends Component {
     return (
       <div>
         <Tabs defaultActiveKey="1" onChange={this.onChange}>
-          <TabPane tab="Tab 1" key="1">
+          <TabPane tab="菜单动态配置" key="1">
             <MenuTree />
           </TabPane>
           <TabPane tab="Tab 2" key="2">

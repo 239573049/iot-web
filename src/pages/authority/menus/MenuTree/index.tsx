@@ -1,7 +1,9 @@
 import { Component, ReactNode } from 'react';
-import { Card, Tree } from 'antd';
+import { Card, Tree, Button } from 'antd';
 import type { DataNode, TreeProps } from 'antd/es/tree';
 import MenuApi from '@/apis/menu';
+import Icon from '@/utils/icon';
+import styles from './index.less';
 const x = 3;
 const y = 2;
 const z = 1;
@@ -37,6 +39,7 @@ generateData(z);
 export default class MenuTree extends Component {
   state = {
     treeData: [],
+    selectData: null,
   };
 
   constructor(props) {
@@ -47,7 +50,8 @@ export default class MenuTree extends Component {
   getMenuTree() {
     var { treeData } = this.state;
     MenuApi.getMenuTree().then((res) => {
-      console.log(res);
+      this.menuIcon(res.data);
+      console.log(res.data);
       treeData = res.data;
       this.setState({
         treeData,
@@ -55,13 +59,27 @@ export default class MenuTree extends Component {
     });
   }
 
+  menuIcon(data: any) {
+    data.forEach((d) => {
+      d.icon = Icon[d.icon];
+      if (d.children.length > 0) {
+        this.menuIcon(d.children);
+      }
+    });
+  }
+
+  onSelect(key, value) {
+    var { selectData } = this.state;
+    selectData = value;
+    this.setState({ selectData });
+  }
+
   render() {
-    var { treeData } = this.state;
+    var { treeData, selectData } = this.state;
     const onDragEnter: TreeProps['onDragEnter'] = (info) => {
-      console.log(info);
+      // console.log('info',info);
     };
     const onDrop: TreeProps['onDrop'] = (info) => {
-      console.log(info);
       const dropKey = info.node.key;
       const dragKey = info.dragNode.key;
       const dropPos = info.node.pos.split('-');
@@ -105,8 +123,8 @@ export default class MenuTree extends Component {
           item.children = item.children || [];
           // where to insert 示例添加到头部，可以是随意位置
           item.children.unshift(dragObj);
-          // in previous version, we use item.children.push(dragObj) to insert the
-          // item to the tail of the children
+          //在以前的版本中，我们使用item.children.push(dragObj)来插入
+          //项目到孩子的尾巴
         });
       } else {
         let ar: DataNode[] = [];
@@ -124,20 +142,58 @@ export default class MenuTree extends Component {
       this.setState({
         treeData: data,
       });
+
+      console.log('onDrop', info);
+
+      var parentId = null;
+      var len = 1;
+
+      len = info.dropPosition;
+
+      info.node.children.forEach((x) => {
+        console.log('x.key', x.key, 'info.dragNode.key', info.dragNode.key);
+
+        if (x.key == info.dragNode.key) {
+          parentId = info.node.key;
+          len = info.node.children.indexOf(x) + 1;
+        }
+      });
+
+      // 如果节点子集不存在；节点在同级
+      if (parentId === null) {
+        var node = info.node as any;
+        parentId = node.parentId;
+      }
+      if (len === -1) {
+        len = 1;
+      }
+      MenuApi.updateMenuParentId(info.dragNode.key, parentId, len).then(
+        (res) => {
+          console.log(res);
+        },
+      );
     };
 
     return (
-      <Card hoverable style={{ height: '100%' }}>
-        <div></div>
-        <Tree
-          className="draggable-tree"
-          draggable
-          blockNode
-          onDragEnter={onDragEnter}
-          onDrop={onDrop}
-          treeData={treeData}
-        />
-      </Card>
+      <div>
+        <Card hoverable className={styles.operation}>
+          <Button type="primary" disabled={selectData == null}>
+            编辑
+          </Button>
+        </Card>
+        <Card hoverable style={{ height: '100%' }}>
+          <Tree
+            className="draggable-tree"
+            draggable
+            blockNode
+            showIcon
+            onSelect={(key, value) => this.onSelect(key, value)}
+            onDragEnter={onDragEnter}
+            onDrop={onDrop}
+            treeData={treeData}
+          />
+        </Card>
+      </div>
     );
   }
 }
