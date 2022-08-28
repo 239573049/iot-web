@@ -11,52 +11,52 @@ export const routes: any[] = [
     routes: [
       {
         name: '首页',
-        path: '/',
+        path: '/admin/home',
         component: '@/pages/home/index',
         icon: 'HomeOutlined',
       },
       {
         name: '权限管理',
-        path: '/authority',
+        path: '/admin/authority',
         icon: 'SettingOutlined',
         routes: [
           {
             name: '角色管理',
-            path: '/authority/role',
+            path: '/admin/authority/role',
             component: '@/pages/authority/roles/index',
           },
           {
             name: '用户管理',
-            path: '/authority/user',
+            path: '/admin/authority/user',
             component: '@/pages/authority/users/index',
           },
           {
             name: '菜单管理',
-            path: '/authority/menu',
+            path: '/admin/authority/menu',
             component: '@/pages/authority/menus/index',
           },
         ],
       },
       {
         name: '设备',
-        path: '/devices',
+        path: '/admin/devices',
         icon: 'DashboardOutlined',
         routes: [
           {
             name: '设备数据预览',
-            path: '/devices/home',
+            path: '/admin/devices/home',
             component: '@/pages/devices/home/index',
           },
           {
             name: '设备管理',
-            path: '/devices/admin',
+            path: '/admin/devices/admin',
             component: '@/pages/devices/admin/index',
           },
         ],
       },
       {
         name: '用户管理',
-        path: '/user',
+        path: '/admin/user',
         icon: 'UserOutlined',
         component: '@/pages/users/index',
       },
