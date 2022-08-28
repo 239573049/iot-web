@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 import AuthModule from '@/modules/AuthModule';
 
-const name = 'api/';
+const name = 'auth/api/';
 
 class AuthApi {
   /**
