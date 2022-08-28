@@ -19,7 +19,7 @@ steps:
     commands:
       - npm config set registry https://registry.npm.taobao.org # 切换淘宝镜像
       - "npm i && npm run build"
-      - $PWD
+      - ls
 
 volumes:
   - name: dockersock
