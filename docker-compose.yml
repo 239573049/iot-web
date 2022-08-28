@@ -12,3 +12,7 @@ services:
       - "npm i && npm run build"
     networks:
       - token
+
+networks:
+  token:
+    external: true
