@@ -43,7 +43,7 @@ export default () => {
           window.localStorage.removeItem('user');
         }
 
-        history.push('/');
+        history.push('/admin');
         return;
       }
       message.error(res.message);
