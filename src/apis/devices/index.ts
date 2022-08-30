@@ -3,8 +3,16 @@ import request from '@/utils/request';
 const name = 'iot-admin/api/';
 
 class DevicesApi {
-  getListAsync() {
-    return request.get(name + 'app/devices');
+  getListAsync(keywords, page = 1, pageSize = 20) {
+    return request.get(
+      name +
+        'app/devices?Keywords=' +
+        keywords +
+        '&Page=' +
+        page +
+        '&PageSize=' +
+        pageSize,
+    );
   }
 
   /**

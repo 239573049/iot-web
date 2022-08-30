@@ -1,7 +1,8 @@
-import { Component, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import * as echarts from 'echarts/core';
 import { GaugeChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
+import './index.less';
 
 echarts.use([GaugeChart, CanvasRenderer]);
 
@@ -142,6 +143,7 @@ export default class DeviceShow extends Component<IProps, IState> {
     myChart = echarts.init(chartDom);
     option && myChart.setOption(option);
     this.setState({ myChart });
+    this.getDeviceLog();
   }
 
   getDeviceLog() {
@@ -168,6 +170,10 @@ export default class DeviceShow extends Component<IProps, IState> {
             },
           ],
         });
+
+        this.setState({
+          deviceLog: res.data,
+        });
       });
     }
   }
@@ -175,9 +181,9 @@ export default class DeviceShow extends Component<IProps, IState> {
   render() {
     var { device } = this.props;
     var { deviceLog } = this.state;
-    this.getDeviceLog();
     return (
       <div>
+        <div className="text">{deviceLog?.creationTime}</div>
         <div style={{ height: '500px' }} id={this.props.device.id}></div>
       </div>
     );

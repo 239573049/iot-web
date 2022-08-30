@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
-import { Card, Col, Row, Image, Modal } from 'antd';
+import { Card, Col, Row, Avatar, Modal } from 'antd';
 import DeviceApi from '@/apis/devices/index';
-import styles from 'index.less';
+import styles from './index.less';
 import DeviceShow from './device-show/index';
 
 export default class Home extends Component {
@@ -17,7 +17,7 @@ export default class Home extends Component {
 
   getDeviceList() {
     var { devices } = this.state;
-    DeviceApi.getListAsync().then((res) => {
+    DeviceApi.getListAsync('', 1, 100).then((res) => {
       devices = res.data.items;
       this.setState({
         devices,
@@ -45,23 +45,22 @@ export default class Home extends Component {
         <Row gutter={16}>
           {devices.map((x) => {
             return (
-              <Col span={4}>
-                <Card
-                  hoverable
-                  onClick={() => this.onDeviceClick(x)}
-                  title={x.title}
-                  bordered={true}
-                >
-                  <Image width={100} src={x.icon} />
-                  <br />
-                  <div className="row-data-name">{x.name}</div>
-                </Card>
-              </Col>
+              <div className={styles.row} onClick={() => this.onDeviceClick(x)}>
+                <Avatar
+                  className={styles.top}
+                  shape="square"
+                  size={64}
+                  src={x.icon}
+                />
+                <br />
+                <div className="row-data-name">{x.name}</div>
+                <div className="row-data-name">{x.remark}</div>
+              </div>
             );
           })}
         </Row>
         <Modal
-          title="Basic Modal"
+          title={'温度计'}
           visible={isModalVisible}
           footer={[]}
           destroyOnClose={false}
