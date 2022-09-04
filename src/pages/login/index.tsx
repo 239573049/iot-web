@@ -42,8 +42,12 @@ export default () => {
         } else {
           window.localStorage.removeItem('user');
         }
+        message.info('登录成功，请稍后！');
 
-        history.push('/admin');
+        setTimeout(() => {
+          history.push('/');
+        }, 2000);
+
         return;
       }
       message.error(res.message);

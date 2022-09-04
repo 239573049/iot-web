@@ -1,7 +1,7 @@
 import { getToken } from './token';
 import { extend } from 'umi-request';
 import { message } from 'antd';
-const baseUrl = 'https://tokengo.top:8443/';
+const baseUrl = 'https://tokengo.top:442/';
 const codeMessage = {
   204: '删除数据成功。',
   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',

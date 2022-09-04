@@ -57,6 +57,20 @@ const columns: ColumnsType<any> = [
 ];
 
 export default class Admin extends Component<IProps, IState> {
+  state: Readonly<IState> = {
+    tab: {
+      data: {
+        items: [],
+        totalCount: 0,
+      },
+      condition: {
+        Keywords: '',
+        Page: 1,
+        PageSize: 20,
+      },
+    },
+  };
+
   constructor(props) {
     super(props);
   }

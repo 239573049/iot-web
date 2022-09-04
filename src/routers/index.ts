@@ -1,62 +1,67 @@
 export const routes: any[] = [
   {
     name: '登录',
-    path: '/',
+    path: '/login',
     component: '@/pages/login/index',
   },
   {
-    path: '/admin',
+    path: '/',
     flatMenu: true,
     component: '@/layouts/index',
     routes: [
       {
         name: '首页',
-        path: '/admin/home',
+        path: '/',
         component: '@/pages/home/index',
         icon: 'HomeOutlined',
       },
       {
         name: '权限管理',
-        path: '/admin/authority',
+        path: '/authority',
         icon: 'SettingOutlined',
         routes: [
           {
             name: '角色管理',
-            path: '/admin/authority/role',
+            path: '/authority/role',
             component: '@/pages/authority/roles/index',
           },
           {
             name: '用户管理',
-            path: '/admin/authority/user',
+            path: '/authority/user',
             component: '@/pages/authority/users/index',
           },
           {
             name: '菜单管理',
-            path: '/admin/authority/menu',
+            path: '/authority/menu',
             component: '@/pages/authority/menus/index',
           },
         ],
       },
       {
         name: '设备',
-        path: '/admin/devices',
+        path: '/devices',
         icon: 'DashboardOutlined',
         routes: [
           {
-            name: '设备数据预览',
-            path: '/admin/devices/home',
-            component: '@/pages/devices/home/index',
+            name: '设备模板',
+            path: '/devices/template',
+            component: '@/pages/devices/template/index',
+          },
+          {
+            name: '设备运行日志',
+            path: '/devices/running-log',
+            component: '@/pages/devices/running-log/index',
           },
           {
             name: '设备管理',
-            path: '/admin/devices/admin',
+            path: '/devices/admin',
             component: '@/pages/devices/admin/index',
           },
         ],
       },
       {
         name: '用户管理',
-        path: '/admin/user',
+        path: '/user',
         icon: 'UserOutlined',
         component: '@/pages/users/index',
       },

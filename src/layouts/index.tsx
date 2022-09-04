@@ -7,6 +7,8 @@ import styles from './index.less';
 import MenuApi from '@/apis/menu/index';
 import Icon from '@/utils/icon';
 import Menu from './menu';
+import { getToken } from '@/utils/token';
+import { history } from 'umi';
 
 export default class App extends Component {
   state = {
@@ -16,6 +18,12 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
+    if (!getToken()) {
+      history.push('/login');
+    }
+  }
+
+  componentDidMount(): void {
     this.getMenu();
   }
 
