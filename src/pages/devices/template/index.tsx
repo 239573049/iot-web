@@ -5,7 +5,7 @@ import { DeviceTemplate } from '@/modules/DeviceTemplateDto';
 import { Input, DatePicker, Button, Table, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './index.less';
-
+import OperationDevice from './operationdevice';
 const { RangePicker } = DatePicker;
 
 interface IState {
@@ -14,57 +14,14 @@ interface IState {
     items: DeviceTemplate[];
     totalCount: number;
   };
+  isOpen: boolean;
+  operationTemplate: any;
+  operation: 'add' | 'update';
+  columns: any[];
 }
 
 interface IProps {}
 
-const columns: ColumnsType<any> = [
-  {
-    title: '设备名称',
-    width: 100,
-    dataIndex: 'name',
-    key: 'name',
-    fixed: 'left',
-  },
-  {
-    title: '图标',
-    key: 'Icon',
-    fixed: 'right',
-    width: 100,
-    render: (value) => {
-      console.log(value);
-
-      return <Image width={50} src={value.icon} />;
-    },
-  },
-  {
-    title: '备注',
-    width: 100,
-    dataIndex: 'remark',
-    key: 'remark',
-    fixed: 'left',
-  },
-  {
-    title: '类型',
-    dataIndex: 'tyleName',
-    key: 'tyleName',
-    width: 150,
-  },
-  {
-    title: '操作',
-    key: 'operation',
-    fixed: 'right',
-    width: 100,
-    render: () => (
-      <div>
-        <Button style={{ margin: '10px' }}>编辑</Button>
-        <Button type="primary" danger>
-          删除
-        </Button>
-      </div>
-    ),
-  },
-];
 export default class Template extends Component<IProps, IState> {
   state: Readonly<IState> = {
     input: new DeviceTemplateInput(),
@@ -72,7 +29,72 @@ export default class Template extends Component<IProps, IState> {
       items: [],
       totalCount: 0,
     },
+    isOpen: false,
+    operation: undefined,
+    operationTemplate: null,
+    columns: [
+      {
+        title: '设备名称',
+        width: 100,
+        dataIndex: 'name',
+        key: 'name',
+        fixed: 'left',
+      },
+      {
+        title: '图标',
+        key: 'Icon',
+        width: 100,
+        render: (value) => {
+          console.log(value);
+
+          return <Image width={50} src={value.icon} />;
+        },
+      },
+      {
+        title: '备注',
+        width: 100,
+        dataIndex: 'remark',
+        key: 'remark',
+      },
+      {
+        title: '类型',
+        dataIndex: 'type',
+        key: 'type',
+        width: 150,
+      },
+      {
+        title: '操作',
+        key: 'operation',
+        fixed: 'right',
+        width: 100,
+        render: (value) => (
+          <div>
+            <Button
+              style={{ margin: '10px' }}
+              onClick={() => this.updateDeviceTemplate(value)}
+            >
+              编辑
+            </Button>
+            <Button type="primary" danger>
+              删除
+            </Button>
+          </div>
+        ),
+      },
+    ],
   };
+
+  updateDeviceTemplate(value) {
+    var { isOpen, operation, operationTemplate } = this.state;
+    isOpen = true;
+    operation = 'update';
+    operationTemplate = value;
+    this.setState({
+      isOpen,
+      operation,
+      operationTemplate,
+    });
+  }
 
   constructor(props) {
     super(props);
@@ -100,7 +122,8 @@ export default class Template extends Component<IProps, IState> {
   }
 
   render(): ReactNode {
-    var { input, data } = this.state;
+    var { columns, input, data, isOpen, operation, operationTemplate } =
+      this.state;
     return (
       <div>
         <div className="search">
@@ -118,15 +141,37 @@ export default class Template extends Component<IProps, IState> {
           <Button
             onClick={() => this.getTemplate()}
             type="primary"
-            style={{ width: '80px' }}
+            style={{ width: '80px', margin: '10px' }}
           >
             搜索
+          </Button>
+
+          <Button
+            onClick={() =>
+              this.setState({
+                isOpen: true,
+              })
+            }
+            type="primary"
+            style={{ width: '80px', margin: '10px' }}
+          >
+            新增模板
           </Button>
         </div>
         <Table
           columns={columns}
           dataSource={data.items}
-          scroll={{ x: 1500, y: 300 }}
+          scroll={{ x: 1500, y: 800 }}
+        />
+        <OperationDevice
+          isOpen={isOpen}
+          operation={operation}
+          template={operationTemplate}
+          onCancel={() =>
+            this.setState({
+              isOpen: false,
+            })
+          }
         />
       </div>
     );
