@@ -4,15 +4,15 @@ const name = 'auth/api/';
 
 class MenuApi {
   getRoleMenu() {
-    return request.get(name + 'app/menu/role-menu');
+    return request.get(name + 'Menu/role-menu');
   }
 
   getMenuTree() {
-    return request.get(name + 'app/menu/menu-tree');
+    return request.get(name + 'Menu/menu-tree');
   }
 
   updateMenuParentId(id, parentId, index) {
-    return request.put(name + 'app/menu/' + id + '/menu-parent-id', {
+    return request.put(name + 'Menu/menu-parent' + id, {
       data: {
         parentId: parentId,
         index: index,

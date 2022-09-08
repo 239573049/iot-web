@@ -9,14 +9,14 @@ class AuthApi {
    * @param value 账号信息
    */
   auth(value: AuthModule) {
-    return request.post(name + 'app/auth/auth', { data: value });
+    return request.post(name + 'Auth', { data: value });
   }
 
   /**
    * 刷新token
    */
   refresh() {
-    return request.put(name + 'app/auth/auth');
+    return request.put(name + 'Auth/refresh');
   }
 }
 
