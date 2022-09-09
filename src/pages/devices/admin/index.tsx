@@ -1,9 +1,10 @@
 import { Component, ReactNode } from 'react';
-import { Table } from 'antd';
+import { Table, Button, Input, DatePicker } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import DeviceModule from '@/modules/DeviceModule';
 import DeviceApi from '@/apis/devices/index';
 
+const { RangePicker } = DatePicker;
 interface IProps {}
 
 interface IState {
@@ -13,9 +14,11 @@ interface IState {
       totalCount: 0;
     };
     condition: {
-      Keywords: '';
-      Page: 1;
-      PageSize: 20;
+      keywords: string | '';
+      endTime: Date | '';
+      startTime: Date | '';
+      page: 1;
+      pageSize: 20;
     };
   };
 }
@@ -64,9 +67,11 @@ export default class Admin extends Component<IProps, IState> {
         totalCount: 0,
       },
       condition: {
-        Keywords: '',
-        Page: 1,
-        PageSize: 20,
+        keywords: '',
+        endTime: '',
+        startTime: '',
+        page: 1,
+        pageSize: 20,
       },
     },
   };
@@ -75,13 +80,27 @@ export default class Admin extends Component<IProps, IState> {
     super(props);
   }
 
+  setTime(value) {
+    var { tab } = this.state;
+    if (value) {
+      tab.condition.startTime = value[0].format('YYYY-MM-DD HH:mm:ss');
+      tab.condition.endTime = value[1].format('YYYY-MM-DD HH:mm:ss');
+    } else {
+      tab.condition.startTime = '';
+      tab.condition.endTime = '';
+    }
+    this.setState({
+      tab,
+    });
+  }
+
   getDevice() {
     var { tab } = this.state;
 
     DeviceApi.getListAsync(
-      tab.condition.Keywords,
-      tab.condition.Page,
-      tab.condition.PageSize,
+      tab.condition.keywords,
+      tab.condition.page,
+      tab.condition.pageSize,
     ).then((res) => {
       tab.data = res.data;
       this.setState({
@@ -94,6 +113,30 @@ export default class Admin extends Component<IProps, IState> {
     var { tab } = this.state;
     return (
       <div>
+        <div className="search">
+          <Input
+            value={tab.condition.keywords}
+            onChange={(e) => {
+              tab.condition.keywords = e.target.value;
+              this.setState({ tab });
+            }}
+            placeholder="请输入搜索内容"
+            style={{ width: '200px', margin: '10px' }}
+          />
+          <RangePicker
+            showTime
+            format="YYYY-MM-DD HH:mm:ss"
+            style={{ margin: '10px' }}
+            onChange={(value) => this.setTime(value)}
+          />
+          <Button
+            onClick={() => this.getDevice()}
+            type="primary"
+            style={{ width: '80px', margin: '10px' }}
+          >
+            搜索
+          </Button>
+        </div>
         <Table
           columns={columns}
           dataSource={tab.data.items}

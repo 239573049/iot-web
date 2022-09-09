@@ -1,12 +1,11 @@
 import { ProLayout } from '@ant-design/pro-components';
-import { useState, Component, ReactNode } from 'react';
-import { Avatar, Popover, Button } from 'antd';
-import { UserOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Component, ReactNode } from 'react';
+import { Avatar, Popover } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import { Link } from 'umi';
 import styles from './index.less';
 import MenuApi from '@/apis/menu/index';
 import Icon from '@/utils/icon';
-import Menu from './menu';
 import { getToken } from '@/utils/token';
 import { history } from 'umi';
 
@@ -46,7 +45,7 @@ export default class App extends Component {
   }
 
   menuIcon(data: any) {
-    data.forEach((d) => {
+    data?.forEach((d) => {
       d.icon = Icon[d.icon];
       if (d.routes.length > 0) {
         this.menuIcon(d.routes);

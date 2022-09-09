@@ -24,7 +24,13 @@ interface IProps {}
 
 export default class Template extends Component<IProps, IState> {
   state: Readonly<IState> = {
-    input: new DeviceTemplateInput(),
+    input: {
+      keywords: '',
+      endTime: '',
+      startTime: '',
+      page: 1,
+      pageSize: 20,
+    },
     data: {
       items: [],
       totalCount: 0,
@@ -107,17 +113,19 @@ export default class Template extends Component<IProps, IState> {
   getTemplate() {
     var { input, data } = this.state;
     templateApi.GetTemplate(input).then((res: any) => {
-      console.log(res.data);
       data = res.data;
       this.setState({ data });
     });
   }
   setTime(value) {
+    var { input } = this.state;
     if (value) {
-      var { input } = this.state;
       input.startTime = value[0].format('YYYY-MM-DD HH:mm:ss');
       input.endTime = value[1].format('YYYY-MM-DD HH:mm:ss');
       console.log(input);
+    } else {
+      input.startTime = '';
+      input.endTime = '';
     }
   }
 
@@ -129,6 +137,10 @@ export default class Template extends Component<IProps, IState> {
         <div className="search">
           <Input
             value={input.keywords}
+            onChange={(e) => {
+              input.keywords = e.target.value;
+              this.setState({ input });
+            }}
             placeholder="请输入搜索内容"
             style={{ width: '200px', margin: '10px' }}
           />
@@ -150,6 +162,7 @@ export default class Template extends Component<IProps, IState> {
             onClick={() =>
               this.setState({
                 isOpen: true,
+                operation: 'add',
               })
             }
             type="primary"
@@ -167,11 +180,14 @@ export default class Template extends Component<IProps, IState> {
           isOpen={isOpen}
           operation={operation}
           template={operationTemplate}
-          onCancel={() =>
+          onCancel={(value) => {
             this.setState({
               isOpen: false,
-            })
-          }
+            });
+            if (value === true) {
+              this.getTemplate();
+            }
+          }}
         />
       </div>
     );

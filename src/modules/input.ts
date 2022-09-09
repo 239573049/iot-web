@@ -1,7 +1,7 @@
 export default class Input {
-  startTime: Date | undefined;
-  endTime: Date | undefined;
-  keywords: string | undefined;
+  startTime: Date | '';
+  endTime: Date | '';
+  keywords: string | '';
   page: number | 1;
   pageSize: number | 20;
 }
