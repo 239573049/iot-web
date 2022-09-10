@@ -23,5 +23,10 @@ class DevicesApi {
   getDeviceLog(deviceId) {
     return request.get(name + 'app/devices/device-log/' + deviceId);
   }
+
+  /**获取设备首页展示数据 */
+  getDeviceHome() {
+    return request.get(name + 'app/devices/device-home');
+  }
 }
 export default new DevicesApi();

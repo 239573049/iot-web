@@ -11,7 +11,7 @@ export const routes: any[] = [
     routes: [
       {
         name: '首页',
-        path: '/',
+        path: '/admin',
         component: '@/pages/home/index',
         icon: 'HomeOutlined',
       },

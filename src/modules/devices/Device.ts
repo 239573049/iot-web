@@ -36,3 +36,17 @@ export class CreateDevice {
   /**设备名称 */
   name: string;
 }
+
+export class DeviceHomeDto {
+  /**用户设备数量 */
+  deviceCount: number;
+
+  /**今天产生日志数量 */
+  todayLogCount: number;
+
+  /**所有运行日志数量 */
+  totalCount: number;
+
+  /**用户模板数量 */
+  templateCount: number;
+}
