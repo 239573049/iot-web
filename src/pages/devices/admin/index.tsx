@@ -1,13 +1,17 @@
 import { Component, ReactNode } from 'react';
-import { Table, Button, Input, DatePicker, Image } from 'antd';
+import { Table, Button, Input, DatePicker, Image, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import DeviceModule from '@/modules/DeviceModule';
 import DeviceApi from '@/apis/devices/index';
+import Device from './device/index';
 
 const { RangePicker } = DatePicker;
 interface IProps {}
 
 interface IState {
+  isopen: boolean;
+  operation: 'add' | 'update';
+  device: any;
   tab: {
     data: {
       items: [];
@@ -27,16 +31,15 @@ const columns: ColumnsType<any> = [
   {
     title: '设备名称',
     width: 100,
+    fixed: 'left',
     dataIndex: 'name',
     key: 'name',
-    fixed: 'left',
   },
   {
     title: '备注',
     width: 100,
     dataIndex: 'remark',
     key: 'remark',
-    fixed: 'left',
   },
   {
     title: '状态',
@@ -55,7 +58,9 @@ const columns: ColumnsType<any> = [
     dataIndex: 'icon',
     key: 'icon',
     width: 150,
-    render: (value) => <Image width={20} src={value.icon}></Image>,
+    render: (value) => {
+      return <Image width={40} src={value}></Image>;
+    },
   },
   {
     title: '设备类型',
@@ -67,12 +72,25 @@ const columns: ColumnsType<any> = [
     title: '操作',
     key: 'operation',
     fixed: 'right',
-    width: 100,
+    width: 200,
     render: (value) => (
       <div>
         <Button style={{ margin: '10px' }}>编辑</Button>
-        <Button type="primary" danger>
-          删除
+        <Button type="primary" style={{ margin: '10px' }}>
+          运行日志
+        </Button>
+        <Button
+          onClick={() => {
+            var aux = document.createElement('input');
+            aux.setAttribute('value', value);
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand('copy');
+            document.body.removeChild(aux);
+            message.success('复制成功');
+          }}
+        >
+          复制id
         </Button>
       </div>
     ),
@@ -94,10 +112,14 @@ export default class Admin extends Component<IProps, IState> {
         pageSize: 20,
       },
     },
+    isopen: false,
+    device: null,
+    operation: null,
   };
 
   constructor(props) {
     super(props);
+    this.getDevice();
   }
 
   setTime(value) {
@@ -130,7 +152,7 @@ export default class Admin extends Component<IProps, IState> {
   }
 
   render(): ReactNode {
-    var { tab } = this.state;
+    var { tab, isopen, device, operation } = this.state;
     return (
       <div>
         <div className="search">
@@ -157,7 +179,13 @@ export default class Admin extends Component<IProps, IState> {
             搜索
           </Button>
           <Button
-            onClick={() => this.getDevice()}
+            onClick={() => {
+              operation = 'add';
+              this.setState({
+                isopen: true,
+                operation,
+              });
+            }}
             type="primary"
             style={{ width: '80px', margin: '10px' }}
           >
@@ -168,6 +196,14 @@ export default class Admin extends Component<IProps, IState> {
           columns={columns}
           dataSource={tab.data.items}
           scroll={{ x: 1500, y: 300 }}
+        />
+        <Device
+          operation={operation}
+          isOpen={isopen}
+          device={device}
+          onCancel={() => {
+            this.setState({ isopen: false });
+          }}
         />
       </div>
     );

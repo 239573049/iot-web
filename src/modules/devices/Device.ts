@@ -25,3 +25,14 @@ export class DeviceTemplateDto {
   /**设备类型 */
   type: string;
 }
+
+export class CreateDevice {
+  /**绑定模板id */
+  deviceTemplateId: string;
+
+  /**备注 */
+  remark: string;
+
+  /**设备名称 */
+  name: string;
+}
