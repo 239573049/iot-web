@@ -35,6 +35,10 @@ class TemplateApi {
   createDevice(data: CreateDevice) {
     return request.post(name + 'app/devices', { data: data });
   }
+
+  createTemplate(data: DeviceTemplate) {
+    return request.post(name + 'app/device-template', { data: data });
+  }
 }
 
 export default new TemplateApi();

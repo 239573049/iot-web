@@ -38,9 +38,17 @@ export default class OperationDevice extends Component<IProps, IState> {
     var { template, operation } = this.props;
 
     if (operation === 'add') {
+      templateApi.createTemplate(value).then((res) => {
+        if (res.code === '200') {
+          message.success('成功');
+          this.props.onCancel(true);
+        } else {
+          message.error(res.message);
+        }
+      });
     } else {
       templateApi.UpdateTemplate(value).then((res) => {
-        if (!res) {
+        if (res.code === '200') {
           message.success('成功');
           this.props.onCancel(true);
         } else {

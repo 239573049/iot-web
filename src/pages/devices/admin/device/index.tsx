@@ -90,9 +90,9 @@ export default class Device extends Component<IProps, IState> {
     return (
       <Modal
         title={operation === 'add' ? '新增设备' : '编辑设备'}
-        visible={this.props.isOpen}
+        visible={isOpen}
         footer={[]}
-        onCancel={this.props.onCancel}
+        onCancel={onCancel}
       >
         {body}
       </Modal>
