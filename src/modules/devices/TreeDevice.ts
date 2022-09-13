@@ -19,3 +19,13 @@ export class GetTreeInput {
   /**关键词 */
   keywords: null | string;
 }
+
+export class UpdateParentInput {
+  /** 父级id*/
+  parentId: null | string;
+
+  /**是否设备 */
+  device: boolean;
+
+  id: string;
+}

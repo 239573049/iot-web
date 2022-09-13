@@ -1,5 +1,9 @@
 import request from '@/utils/request';
-import { TreeDeviceInput, GetTreeInput } from '@/modules/devices/TreeDevice';
+import {
+  TreeDeviceInput,
+  GetTreeInput,
+  UpdateParentInput,
+} from '@/modules/devices/TreeDevice';
 
 const name = 'iot-admin/api/';
 
@@ -30,6 +34,17 @@ class TreeDeviceApi {
         '&keywords=' +
         input.keywords,
     );
+  }
+
+  /**
+   * 修改绑定的父级
+   * @param input
+   * @returns
+   */
+  updateParent(input: UpdateParentInput) {
+    return request.put(name + '/app/tree-device/parent', {
+      data: input,
+    });
   }
 }
 

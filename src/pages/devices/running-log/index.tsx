@@ -4,9 +4,9 @@ import TreeDevice from '@/components/device/TreeDevice';
 export default class RunLog extends Component {
   render(): ReactNode {
     return (
-      <div>
+      <div style={{ minHeight: '800px', height: '100%' }}>
         <span>
-          <TreeDevice width={'270px'} />
+          <TreeDevice />
         </span>
       </div>
     );
