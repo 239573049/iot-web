@@ -1,12 +1,24 @@
-export class GetDeviceLogListInput {
+import Input from '../input';
+
+export class GetDeviceLogListInput extends Input {
   deviceId: string | '';
+  device: boolean | '';
+}
 
-  /**关键词 */
-  keywords: null | string;
+export class DeviceRunLogDto {
+  id: string;
 
-  /**开始时间 */
-  startTime: Date | '';
+  name: string;
 
-  /**结束数据 */
-  endTime: Date | '';
+  deviceId: string;
+
+  logs: string;
+
+  type: string;
+
+  icon: string;
+
+  remark: string;
+
+  creationTime: string;
 }

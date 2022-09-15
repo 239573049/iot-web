@@ -55,7 +55,7 @@ function Data() {
 Data();
 let i = 1;
 
-function App() {
+function App(props) {
   const [treeData, setTreeData] = useState(data);
   const [parent, setParent] = useState(inputData);
   const [isOpen, setIsOpen] = useState(false);
@@ -115,6 +115,7 @@ function App() {
   }
 
   function onSelect(key, node) {
+    props.OnSelect(node);
     if (node.selected) {
       if (node.node.isLeaf) {
         setParent((origin) => {
