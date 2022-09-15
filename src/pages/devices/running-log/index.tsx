@@ -103,8 +103,16 @@ export default class RunLog extends Component<IProps, IState> {
           <Col span={4}>
             <TreeDevice
               OnSelect={(node) => {
-                input.device = !node.selected;
-                input.deviceId = node.node.key;
+                console.log(node);
+
+                if (node.selected) {
+                  input.device = node.node.isLeaf;
+                  input.deviceId = node.node.key;
+                } else {
+                  input.device = '';
+                  input.deviceId = '';
+                }
+
                 this.setState({
                   input,
                 });

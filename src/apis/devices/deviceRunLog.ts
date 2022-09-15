@@ -19,7 +19,7 @@ class DeviceRunLogApi {
         input.page +
         '&PageSize=' +
         input.pageSize +
-        '&device' +
+        '&device=' +
         input.device,
     );
   }
