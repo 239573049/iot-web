@@ -33,30 +33,32 @@ const updateTreeData = (
     return node;
   });
 
-let i = 0;
+let data = [];
 
-function App() {
-  const [treeData, setTreeData] = useState([]);
-  const [parent, setParent] = useState(inputData);
-  const [isOpen, setIsOpen] = useState(false);
-  if (i === 0) {
-    i = 1;
-    console.log(i);
-
+function Data() {
+  return new Promise<void>((resolve) => {
     treeDeviceApi
       .GetTree({
         parentId: '',
         keywords: '',
       })
-      .then((res: any) => {
+      .then((res) => {
         res.data.map((x) => {
           x.icon = x.isLeaf ? Icon['HddOutlined'] : Icon['FolderOutlined'];
         });
-
-        setTreeData(res.data);
+        data = res.data;
+        resolve();
       });
-  }
+  });
+}
 
+Data();
+let i = 1;
+
+function App() {
+  const [treeData, setTreeData] = useState(data);
+  const [parent, setParent] = useState(inputData);
+  const [isOpen, setIsOpen] = useState(false);
   const onLoadData = ({ key, children }: any) =>
     new Promise<void>((resolve) => {
       treeDeviceApi
@@ -73,6 +75,26 @@ function App() {
           resolve();
         });
     });
+
+  if (i === 1) {
+    GetData();
+    i = 2;
+  }
+
+  function GetData() {
+    treeDeviceApi
+      .GetTree({
+        parentId: '',
+        keywords: '',
+      })
+      .then((res: any) => {
+        res.data.map((x) => {
+          x.icon = x.isLeaf ? Icon['HddOutlined'] : Icon['FolderOutlined'];
+        });
+
+        setTreeData(res.data);
+      });
+  }
 
   function LoadData(key, children) {
     return new Promise<void>((resolve) => {
@@ -203,14 +225,22 @@ function App() {
     }
 
     var parentId = null;
-
+    let isLeaf = false;
     info.node.children.forEach((x) => {
       console.log('x.key', x.key, 'info.dragNode.key', info.dragNode.key);
 
       if (x.key == info.dragNode.key) {
         parentId = info.node.key;
+        // 设备下不能存在节点
+        if (info.node.isLeaf === true) {
+          isLeaf = true;
+        }
       }
     });
+
+    if (isLeaf) {
+      return;
+    }
 
     // 如果节点子集不存在；节点在同级
     if (parentId === null) {
