@@ -4,29 +4,44 @@ import {
   DeviceRunLogDto,
   GetDeviceLogListInput,
 } from '@/modules/devices/DeviceRunLog';
-import { Col, Row, Button, DatePicker, Table, Image, Input } from 'antd';
+import {
+  Col,
+  Row,
+  Button,
+  DatePicker,
+  Table,
+  Image,
+  Input,
+  Pagination,
+} from 'antd';
 import './index.less';
 import DeviceRunLogApi from '@/apis/devices/deviceRunLog';
 const { RangePicker } = DatePicker;
 
 const columns: any = [
   {
+    title: '序号',
+    width: 5,
+    dataIndex: 'index',
+    key: 'index',
+  },
+  {
     title: '设备名称',
-    width: 30,
+    width: 10,
     dataIndex: 'name',
     key: 'name',
   },
   {
     title: '图标',
     key: 'Icon',
-    width: 30,
+    width: 10,
     render: (value) => {
       return <Image width={50} src={value.icon} />;
     },
   },
   {
     title: '备注',
-    width: 30,
+    width: 10,
     dataIndex: 'remark',
     key: 'remark',
   },
@@ -34,12 +49,18 @@ const columns: any = [
     title: '类型',
     dataIndex: 'type',
     key: 'type',
-    width: 30,
+    width: 10,
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'creationTime',
+    key: 'creationTime',
+    width: 10,
   },
   {
     title: '运行日志',
-    dataIndex: 'Logs',
-    key: 'Logs',
+    dataIndex: 'logs',
+    key: 'logs',
     width: 30,
   },
 ];
@@ -48,7 +69,7 @@ interface IState {
   input: GetDeviceLogListInput;
   tabData: {
     items: DeviceRunLogDto[];
-    TotalCount: 0;
+    totalCount: 0;
   };
 }
 
@@ -60,14 +81,14 @@ export default class RunLog extends Component<IProps, IState> {
       deviceId: '',
       keywords: '',
       page: 1,
-      pageSize: 20,
+      pageSize: 10,
       startTime: '',
       endTime: '',
       device: '',
     },
     tabData: {
       items: [],
-      TotalCount: 0,
+      totalCount: 0,
     },
   };
 
@@ -91,8 +112,20 @@ export default class RunLog extends Component<IProps, IState> {
     var { input, tabData } = this.state;
 
     DeviceRunLogApi.GetList(input).then((res) => {
-      tabData = res;
+      tabData = res.data;
+      this.setState({
+        tabData,
+      });
     });
+  }
+  onShowSizeChange(page, pageSize) {
+    var { input } = this.state;
+    input.page = page;
+    input.pageSize = pageSize;
+    this.setState({
+      input,
+    });
+    this.getDate();
   }
 
   render(): ReactNode {
@@ -144,7 +177,14 @@ export default class RunLog extends Component<IProps, IState> {
             <Table
               dataSource={tabData.items}
               columns={columns}
-              scroll={{ y: 800 }}
+              pagination={false}
+              scroll={{ y: 650 }}
+            ></Table>
+            <Pagination
+              showSizeChanger
+              onShowSizeChange={(k, v) => this.onShowSizeChange(k, v)}
+              defaultCurrent={input.page}
+              total={tabData.totalCount}
             />
           </Col>
         </Row>

@@ -3,5 +3,5 @@ export default class Input {
   endTime: Date | '';
   keywords: string | '';
   page: number | 1;
-  pageSize: number | 20;
+  pageSize: number | 10;
 }
